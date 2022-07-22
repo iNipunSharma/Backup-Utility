@@ -1,0 +1,32 @@
+dist: focal
+language: node_js
+node_js: "12"
+
+services:
+  - redis-server
+  - docker
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+
+install: yarn install --frozen-lockfile
+
+script:
+  - yarn lint
+  - yarn test
+
+branches:
+  only:
+    - master
+    - release
+    - staging
+    - demo1
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: yarn deploy
+  on:
+    all_branches: true
